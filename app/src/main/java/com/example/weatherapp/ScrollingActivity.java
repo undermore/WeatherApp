@@ -11,8 +11,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class ScrollingActivity extends AppCompatActivity {
+public class ScrollingActivity extends AppCompatActivity implements OnRequestCompleted {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,9 @@ public class ScrollingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        OpenWeatherMapAPI requestTask = new OpenWeatherMapAPI(this);
+        requestTask.execute();
     }
 
     @Override
@@ -50,5 +54,11 @@ public class ScrollingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onGetData(String result){
+        TextView itemTv = findViewById(R.id.city_item);
+        itemTv.setText(result);
     }
 }
