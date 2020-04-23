@@ -10,9 +10,8 @@ import java.net.URL;
 //继承 AsyncTask 返回 String
 public class OpenWeatherMapAPI extends AsyncTask<Void, Void, String> {
 
-
-    String lng = "113.27336"; //广州的经度
-    String lat = "23.106391"; //广州的纬度
+    String lng = "";
+    String lat = "";
 
     String api_key_one_day= "670364ac5fb9365bcfcb4a1ea26e4b3f";
     String api_key_16_day = "1a60c49a1ee041562874026d15cd7c2f";
@@ -36,6 +35,9 @@ public class OpenWeatherMapAPI extends AsyncTask<Void, Void, String> {
     public OpenWeatherMapAPI(OnRequestCompleted rc, String name, double lngf, double latf) {
         requestCompleted = rc;
         mName = name;
+        lng = String.valueOf(lngf);
+        lat = String.valueOf(latf);
+
         //根据 API 规则构造 http 网址  详见 https://openweathermap.org/forecast16
         httpLink = "http://api.openweathermap.org/data/2.5/forecast/daily?" +
                 "lat=" + lat + "&lon=" + lng + "&units=" + units + "&cnt="+ days +"&lang="+ language +"&appid=" + api_key_16_day;

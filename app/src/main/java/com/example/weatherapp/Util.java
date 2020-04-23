@@ -1,16 +1,42 @@
 package com.example.weatherapp;
 
+import android.location.Address;
+import android.location.Geocoder;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Util {
+
+
+    //获得指定地名的经纬度
+    public static LatLng getLatAndLng(String cityName) {
+
+        Geocoder geocoder = new Geocoder(ScrollingActivity.mContext, Locale.CHINA);
+        try {
+            List<Address> addressList = geocoder.getFromLocationName(cityName,5);
+            if (addressList.size()> 0) {
+                Address address = addressList.get(0);
+                double latitude = address.getLatitude();//纬度
+                double longitude = address.getLongitude();//经度
+                return new LatLng(latitude,longitude);
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //解析 Json 数据
     //Json 数据结构 详见 https://openweathermap.org/forecast16
@@ -54,9 +80,10 @@ public class Util {
         return dateList;
     }
 
-    //获得对应的天气图标字符
+
+    //获得天气图标字体
     //详见 https://github.com/neoteknic/weather-icons-to-android
-    public static String getWeatherIco(int iconId) {
+    public static String getWeatherIco(int iconId){
         int id = iconId / 100;
         String icon = "";
         if(iconId == 800){
@@ -79,5 +106,4 @@ public class Util {
         }
         return icon;
     }
-
 }
