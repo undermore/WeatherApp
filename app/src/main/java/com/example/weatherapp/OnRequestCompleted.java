@@ -1,5 +1,5 @@
 package com.example.weatherapp;
 
 public interface OnRequestCompleted {
-    void onGetData(String result);
+    void onGetData(String result, String name);
 }

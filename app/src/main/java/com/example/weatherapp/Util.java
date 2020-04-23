@@ -36,7 +36,7 @@ public class Util {
                 //得到 weather 数组
                 JSONObject details= arrJson.getJSONObject(i).getJSONArray("weather").getJSONObject(0);
                 String weather = details.getString("description");
-                String icon =String.valueOf(details.getInt("id"));
+                String icon = getWeatherIco(details.getInt("id"));
                 String humidity = arrJson.getJSONObject(i).getString("humidity"); //湿度
                 String pressure = arrJson.getJSONObject(i).getString("pressure"); //气压
 
@@ -52,6 +52,32 @@ public class Util {
             e.printStackTrace();
         }
         return dateList;
+    }
+
+    //获得对应的天气图标字符
+    //详见 https://github.com/neoteknic/weather-icons-to-android
+    public static String getWeatherIco(int iconId) {
+        int id = iconId / 100;
+        String icon = "";
+        if(iconId == 800){
+            icon = ScrollingActivity.mContext.getString(R.string.weather_sunny);
+        } else {
+            switch(id) {
+                case 2 : icon = ScrollingActivity.mContext.getString(R.string.weather_thunder);
+                    break;
+                case 3 : icon = ScrollingActivity.mContext.getString(R.string.weather_drizzle);
+                    break;
+                case 5 : icon = ScrollingActivity.mContext.getString(R.string.weather_rainy);
+                    break;
+                case 6 : icon = ScrollingActivity.mContext.getString(R.string.weather_snowy);
+                    break;
+                case 7 : icon = ScrollingActivity.mContext.getString(R.string.weather_foggy);
+                    break;
+                case 8 : icon = ScrollingActivity.mContext.getString(R.string.weather_cloudy);
+                    break;
+            }
+        }
+        return icon;
     }
 
 }

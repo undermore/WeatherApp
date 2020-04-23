@@ -21,9 +21,7 @@ public class OpenWeatherMapAPI extends AsyncTask<Void, Void, String> {
     String days = "5";//天数
     String language = "zh_cn"; //语言 中文
 
-    //根据 API 规则构造 http 网址  详见 https://openweathermap.org/forecast16
-    String httpLink = "http://api.openweathermap.org/data/2.5/forecast/daily?" +
-            "lat=" + lat + "&lon=" + lng + "&units=" + units + "&cnt="+ days +"&lang="+ language +"&appid=" + api_key_16_day;
+    String httpLink = "";
 
     //http 连接对象
     HttpURLConnection connection;
@@ -31,11 +29,16 @@ public class OpenWeatherMapAPI extends AsyncTask<Void, Void, String> {
     //通过这个接口与 Activity 交互
     OnRequestCompleted requestCompleted;
 
+    String mName;
     //类的构造器
     public OpenWeatherMapAPI(){}
     //带有 OnRequestCompleted 具体实现的构造器
-    public OpenWeatherMapAPI(OnRequestCompleted rc){
+    public OpenWeatherMapAPI(OnRequestCompleted rc, String name, double lngf, double latf) {
         requestCompleted = rc;
+        mName = name;
+        //根据 API 规则构造 http 网址  详见 https://openweathermap.org/forecast16
+        httpLink = "http://api.openweathermap.org/data/2.5/forecast/daily?" +
+                "lat=" + lat + "&lon=" + lng + "&units=" + units + "&cnt="+ days +"&lang="+ language +"&appid=" + api_key_16_day;
     }
 
     //返回 Json 格式的天气数据
@@ -84,11 +87,10 @@ public class OpenWeatherMapAPI extends AsyncTask<Void, Void, String> {
         return result;
     }
 
-
     //任务执行完毕后调用
     @Override
     protected void onPostExecute(String result) {
-        requestCompleted.onGetData(result);
+        requestCompleted.onGetData(result, mName);
     }
 
 }
